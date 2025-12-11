@@ -68,6 +68,15 @@ DB_USERNAME=your_username
 DB_PASSWORD=your_password
 ```
 
+```
+REVERB_APP_ID=my-app-id
+REVERB_APP_KEY=my-app-key
+REVERB_APP_SECRET=my-app-secret
+REVERB_HOST="localhost"
+REVERB_PORT=8080
+REVERB_SCHEME=http
+```
+
 4. Run migrations:
 ```bash
 php artisan migrate
