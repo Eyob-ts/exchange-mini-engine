@@ -1,17 +1,17 @@
-# Exchange Mini Engine 🚀
+# Exchange Mini Engine 
 
 A modern cryptocurrency exchange mini-engine built with Laravel 12 (Backend) and Vue.js 3 (Frontend).
 
 ## Features
 
-- 🔐 User Authentication (Laravel Sanctum)
-- 📊 Real-time Order Book
-- 💰 Order Matching Engine
-- 📈 Trading Interface
-- 💼 Portfolio Management
-- 🔄 Queue-based Order Processing
+-  User Authentication (Laravel Sanctum)
+-  Real-time Order Book
+-  Order Matching Engine
+-  Trading Interface
+-  Portfolio Management
+-  Queue-based Order Processing
 
-## Quick Start (Docker) 🐳
+## Quick Start (Docker) 
 
 The easiest way to get started is using Docker. Just run one command:
 
@@ -135,27 +135,44 @@ docker-compose exec app php artisan migrate
 docker-compose exec frontend npm run build
 ```
 
+## Documentation
+
+Detailed documentation is available in key directories:
+
+- 📚 **API Documentation**: [`routes/API_DOCUMENTATION.md`](routes/API_DOCUMENTATION.md) - Complete API endpoint reference
+- 🏗️ **Architecture (Backend)**: [`app/Services/SERVICES_DOCUMENTATION.md`](app/Services/SERVICES_DOCUMENTATION.md) - Business logic and services
+- 🗄️ **Models Documentation**: [`app/Models/MODELS_DOCUMENTATION.md`](app/Models/MODELS_DOCUMENTATION.md) - Database models and relationships
+- 🎮 **Controllers Documentation**: [`app/Http/Controllers/Api/CONTROLLERS_DOCUMENTATION.md`](app/Http/Controllers/Api/CONTROLLERS_DOCUMENTATION.md) - API controllers
+- 🎨 **Frontend Architecture**: [`frontend/src/ARCHITECTURE.md`](frontend/src/ARCHITECTURE.md) - Frontend structure and patterns
+- 🚀 **Quick Start Guide**: [`QUICKSTART.md`](QUICKSTART.md) - Fast setup instructions
+
 ## Project Structure
 
 ```
 exchange-mini-engine/
 ├── app/
 │   ├── Http/Controllers/Api/  # API Controllers
+│   │   └── CONTROLLERS_DOCUMENTATION.md
 │   ├── Services/               # Business Logic
+│   │   └── SERVICES_DOCUMENTATION.md
 │   ├── Models/                 # Eloquent Models
+│   │   └── MODELS_DOCUMENTATION.md
 │   └── Jobs/                   # Queue Jobs
 ├── frontend/
 │   ├── src/
 │   │   ├── components/         # Vue Components
 │   │   ├── stores/             # Pinia Stores
-│   │   └── views/              # Vue Views
+│   │   ├── views/              # Vue Views
+│   │   └── ARCHITECTURE.md     # Frontend docs
 │   └── vite.config.ts
 ├── database/
 │   ├── migrations/             # Database Migrations
 │   └── seeders/                # Database Seeders
 ├── routes/
-│   └── api.php                 # API Routes
+│   ├── api.php                 # API Routes
+│   └── API_DOCUMENTATION.md    # API docs
 ├── docker-compose.yml          # Docker Configuration
+├── QUICKSTART.md               # Quick start guide
 └── run.sh / run.bat           # Setup Scripts
 ```
 
