@@ -1,59 +1,214 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Exchange Mini Engine 🚀
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A modern cryptocurrency exchange mini-engine built with Laravel 12 (Backend) and Vue.js 3 (Frontend).
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- 🔐 User Authentication (Laravel Sanctum)
+- 📊 Real-time Order Book
+- 💰 Order Matching Engine
+- 📈 Trading Interface
+- 💼 Portfolio Management
+- 🔄 Queue-based Order Processing
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Quick Start (Docker) 🐳
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+The easiest way to get started is using Docker. Just run one command:
 
-## Learning Laravel
+### For Linux/Mac:
+```bash
+chmod +x run.sh
+./run.sh
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### For Windows:
+```bash
+run.bat
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+That's it! The script will:
+- ✅ Install all dependencies
+- ✅ Set up the database
+- ✅ Run migrations
+- ✅ Start all services
 
-## Laravel Sponsors
+### Access Points:
+- **Frontend**: http://localhost:5173
+- **Backend API**: http://localhost:8000/api
+- **API Documentation**: http://localhost:8000/docs (if Scramble is enabled)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Manual Setup (Without Docker)
 
-### Premium Partners
+### Prerequisites
+- PHP 8.2+
+- Composer
+- Node.js 20+
+- MySQL 8.0+ or SQLite
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Backend Setup
 
-## Contributing
+1. Install dependencies:
+```bash
+composer install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+2. Create `.env` file:
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-## Code of Conduct
+3. Configure database in `.env`:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=exchange_db
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+4. Run migrations:
+```bash
+php artisan migrate
+```
 
-## Security Vulnerabilities
+5. Start the server:
+```bash
+php artisan serve
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+6. Start queue worker (in another terminal):
+```bash
+php artisan queue:work
+```
+
+### Frontend Setup
+
+1. Navigate to frontend directory:
+```bash
+cd frontend
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Create `.env` file:
+```bash
+echo "VITE_API_URL=http://localhost:8000/api" > .env
+```
+
+4. Start development server:
+```bash
+npm run dev
+```
+
+## Docker Services
+
+The Docker setup includes:
+
+- **app**: Laravel PHP-FPM application
+- **nginx**: Web server (port 8000)
+- **mysql**: MySQL database (port 3306)
+- **queue**: Laravel queue worker
+- **frontend**: Vue.js development server (port 5173)
+
+## Docker Commands
+
+```bash
+# Start all services
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop all services
+docker-compose down
+
+# Restart a specific service
+docker-compose restart app
+
+# Execute commands in containers
+docker-compose exec app php artisan migrate
+docker-compose exec frontend npm run build
+```
+
+## Project Structure
+
+```
+exchange-mini-engine/
+├── app/
+│   ├── Http/Controllers/Api/  # API Controllers
+│   ├── Services/               # Business Logic
+│   ├── Models/                 # Eloquent Models
+│   └── Jobs/                   # Queue Jobs
+├── frontend/
+│   ├── src/
+│   │   ├── components/         # Vue Components
+│   │   ├── stores/             # Pinia Stores
+│   │   └── views/              # Vue Views
+│   └── vite.config.ts
+├── database/
+│   ├── migrations/             # Database Migrations
+│   └── seeders/                # Database Seeders
+├── routes/
+│   └── api.php                 # API Routes
+├── docker-compose.yml          # Docker Configuration
+└── run.sh / run.bat           # Setup Scripts
+```
+
+## API Endpoints
+
+### Authentication
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - Login user
+- `POST /api/auth/logout` - Logout user (requires auth)
+
+### Orders
+- `GET /api/orderbook?symbol=BTCUSD` - Get order book
+- `GET /api/orders` - Get user orders (requires auth)
+- `POST /api/orders` - Create new order (requires auth)
+- `POST /api/orders/{id}/cancel` - Cancel order (requires auth)
+
+### Profile
+- `GET /api/profile` - Get user profile (requires auth)
+
+## Technology Stack
+
+**Backend:**
+- Laravel 12
+- Laravel Sanctum (Authentication)
+- Laravel Queue (Background Jobs)
+- Laravel Telescope (Debugging)
+
+**Frontend:**
+- Vue.js 3
+- TypeScript
+- Pinia (State Management)
+- Axios (HTTP Client)
+- Tailwind CSS
+- Vite
+
+**Infrastructure:**
+- Docker & Docker Compose
+- Nginx
+- MySQL 8.0
+- PHP 8.2
+
+## Development
+
+### Running Tests
+```bash
+php artisan test
+```
+
+### Code Style
+```bash
+./vendor/bin/pint
+```
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MIT License
