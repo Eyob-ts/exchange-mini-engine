@@ -31,16 +31,26 @@ export const useMarketStore = defineStore('market', {
         },
 
         connectWebSocket() {
-            echo.channel('market')
-                .listen('.OrderMatched', (e: any) => {
-                    console.log('Order Matched:', e);
-                    // In a real app, we would update the orderbook intelligently here
-                    // For now, we'll just re-fetch to keep it simple and accurate
-                    this.fetchOrderBook();
-                })
-                .listen('.OrderPlaced', (_e: any) => {
-                    this.fetchOrderBook();
-                });
+            // Only connect if Echo is properly initialized
+            if (!echo || !import.meta.env.VITE_REVERB_APP_KEY) {
+                console.warn('WebSocket not available: Echo not initialized. Set VITE_REVERB_APP_KEY and VITE_REVERB_HOST to enable real-time updates.');
+                return;
+            }
+
+            try {
+                echo.channel('market')
+                    .listen('.OrderMatched', (e: any) => {
+                        console.log('Order Matched:', e);
+                        // In a real app, we would update the orderbook intelligently here
+                        // For now, we'll just re-fetch to keep it simple and accurate
+                        this.fetchOrderBook();
+                    })
+                    .listen('.OrderPlaced', (_e: any) => {
+                        this.fetchOrderBook();
+                    });
+            } catch (error) {
+                console.error('Failed to connect WebSocket:', error);
+            }
         }
     }
 })
