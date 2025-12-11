@@ -4,6 +4,9 @@ import Card from '../ui/Card.vue'
 import Button from '../ui/Button.vue'
 import Input from '../ui/Input.vue'
 import api from '../../axios'
+import { useMarketStore } from '../../stores/market'
+
+const marketStore = useMarketStore()
 
 const side = ref<'buy' | 'sell'>('buy')
 const price = ref('')
@@ -20,6 +23,7 @@ const submitOrder = async () => {
     loading.value = true
     try {
         await api.post('/orders', {
+            symbol: 'BTCUSD',
             side: side.value,
             price: parseFloat(price.value),
             amount: parseFloat(amount.value)
@@ -27,9 +31,14 @@ const submitOrder = async () => {
         // Reset form
         price.value = ''
         amount.value = ''
+        // Refresh order book to show the new order
+        await marketStore.fetchOrderBook('BTCUSD')
         alert('Order placed successfully!')
-    } catch (err) {
-        alert('Failed to place order')
+    } catch (err: any) {
+        const errorMessage = err.response?.data?.message || 
+                           (err.response?.data?.errors ? JSON.stringify(err.response.data.errors) : null) ||
+                           'Failed to place order'
+        alert(errorMessage)
     } finally {
         loading.value = false
     }

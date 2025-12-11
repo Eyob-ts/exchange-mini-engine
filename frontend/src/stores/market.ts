@@ -17,10 +17,10 @@ export const useMarketStore = defineStore('market', {
     }),
 
     actions: {
-        async fetchOrderBook() {
+        async fetchOrderBook(symbol: string = 'BTCUSD') {
             this.loading = true
             try {
-                const response = await api.get('/orderbook')
+                const response = await api.get('/orderbook', { params: { symbol } })
                 this.bids = response.data.bids
                 this.asks = response.data.asks
             } catch (err) {

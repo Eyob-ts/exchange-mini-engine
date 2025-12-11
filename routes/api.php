@@ -13,6 +13,8 @@ Route::prefix('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 });
 
+Route::get('/orderbook', [OrderController::class, 'orderBook']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/profile', [AuthController::class, 'me']);
     Route::post('/wallet/deposit', [WalletController::class, 'deposit']);

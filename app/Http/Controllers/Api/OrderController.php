@@ -20,7 +20,10 @@ class OrderController extends Controller
     /**
      * Get Order Book.
      */
-    public function index(Request $request)
+    /**
+     * Get Order Book.
+     */
+    public function orderBook(Request $request)
     {
         $request->validate([
             'symbol' => 'required|string',
@@ -48,6 +51,16 @@ class OrderController extends Controller
             'bids' => OrderResource::collection($buyOrders),
             'asks' => OrderResource::collection($sellOrders),
         ]);
+    }
+
+    /**
+     * Get User Orders.
+     */
+    public function index(Request $request)
+    {
+        return OrderResource::collection(
+            $request->user()->orders()->latest()->paginate(20)
+        );
     }
 
     /**
